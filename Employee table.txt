@@ -1,0 +1,89 @@
+
+
+--First, find all departments located at the location whose id is 1700:
+
+SELECT DEPARTMENT_NAME FROM DEPARTMENTS_2590  WHERE LOCATION_ID='1700';
+
+--•Find all employees who do not locate at the location 1700
+
+SELECT FIRST_NAME, LAST_NAME FROM EMPLOYEES_2590 
+WHERE EXISTS 
+(SELECT * FROM DEPARTMENTS_2590 WHERE LOCATION_ID NOT IN ('1700'));
+
+--?find the employees who have the highest salary 
+
+SELECT FIRST_NAME, LAST_NAME FROM EMPLOYEES_2590 
+WHERE SALARY=
+(SELECT MAX(SALARY) FROM EMPLOYEES_2590);
+
+--?find all employees who salaries are greater than the average salary of all employees
+
+SELECT FIRST_NAME,LAST_NAME FROM EMPLOYEES_2590 
+WHERE SALARY>
+(SELECT AVG(SALARY) FROM EMPLOYEES_2590);
+
+--?find all departments which have at least one employee with the salary is greater than 10,000:
+
+SELECT DEPARTMENT_NAME FROM DEPARTMENTS_2590 
+WHERE DEPARTMENT_ID IN
+(SELECT DEPARTMENT_ID FROM EMPLOYEES_2590 WHERE SALARY >10000);
+
+--?find all employees whose salaries are greater than the lowest salary of every department:
+
+SELECT FIRST_NAME,LAST_NAME FROM EMPLOYEES_2590
+WHERE SALARY >
+(SELECT MIN(SALARY) FROM EMPLOYEES_2590);
+
+--?find the salaries of all employees, their average salary, and the difference between
+--the salary of each employee and the average salary.
+
+SELECT SALARY,SALARY-(SELECT AVG(SALARY) FROM EMPLOYEES_2590) FROM EMPLOYEES_2590;
+
+--?List the Employees whose name starts with “ar”?
+
+SELECT FIRST_NAME FROM EMPLOYEES_2590 
+WHERE FIRST_NAME LIKE 'ar%';
+
+--List the Employees whose name starts with P,B,R characters
+
+SELECT FIRST_NAME FROM EMPLOYEES_2590 
+WHERE FIRST_NAME LIKE 'P%'
+OR FIRST_NAME LIKE 'B%'
+OR FIRST_NAME LIKE 'R%';
+
+--What is query to display odd rows from the Employees table?
+
+SELECT * FROM (SELECT EMPLOYEE_ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUMBER,
+HIRE_DATE,JOB_ID,SALARY,MANAGER_ID,DEPARTMENT_ID,ROWNUM RN FROM EMPLOYEES_2590)
+WHERE MOD(RN,2)!=0;
+
+--Find Query to get information of Employeewhere Employee is not assigned to the department
+
+SELECT EMPLOYEE_ID, FIRST_NAME,LAST_NAME FROM EMPLOYEES_2591 WHERE DEPARTMENT_ID = NULL;
+
+--How to fetch all the records from Employee whose joining year is 2018?
+
+SELECT EMPLOYEE_IDFROM EMPLOYEES_2590 WHERE EXTRACT(YEAR FROM TO_DATE (HIRE_DATE)) = 2018;
+
+
+--How Do you find all Employees with its managers?(Consider there is manager id also
+--in Employee table)
+
+
+SELECT EMPLOYEE_ID, FIRST_NAME, LAST_NAME, MANAGER_ID FROM EMPLOYEES_2590;
+
+--Display 3 to 7 records from Employee table
+
+SELECT * FROM EMPLOYEES_2590 
+WHERE EMPLOYEE_ID BETWEEN '102' AND '107';
+
+OR
+
+SELECT * FROM EMPLOYEES_2590 FETCH FIRST 3 ROWS ONLY;
+
+
+
+
+
+
+

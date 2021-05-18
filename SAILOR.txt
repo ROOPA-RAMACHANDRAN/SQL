@@ -1,0 +1,93 @@
+ 
+-- 1.Write a query to find the name of the sailors who reserved red boat
+
+SELECT A.SNAME FROM SAILOR A
+ WHERE A.SID IN
+(SELECT C.SID FROM RESERVE C
+ WHERE C.BID IN
+(SELECT B.BID FROM BOAT B 
+WHERE COLOR='red'));
+
+---2.Write a query to find the names of sailors who have reserved a red and a green boat.
+
+SELECT A.SNAME FROM SAILOR A 
+WHERE A.SID IN
+(SELECT C.SID FROM RESERVE C 
+WHERE C.BID IN
+(SELECT B.BID FROM BOAT B 
+WHERE COLOR='red' OR COLOR='green'));
+
+--3.Write a query to find the name of sailor who reserved 1 boat
+
+SELECT SNAME FROM SAILOR A,RESERVE B
+WHERE A.SID=B.SID AND BID IN
+(SELECT COUNT(DISTINCT BID) 
+FROM RESERVE);
+SELECT COUNT(DISTINCT BID) 
+FROM RESERVE;
+
+--4) Write a query to find the sids of all sailors who have reserved red boats
+--but not green boats.
+
+SELECT A.SID FROM SAILOR A 
+WHERE A.SID IN
+(SELECT C.SID FROM RESERVE C 
+WHERE C.BID IN
+(SELECT B.BID FROM BOAT B 
+WHERE COLOR='red'));
+
+--5.Write a query to find the sailors with the highest rating
+
+SELECT SNAME FROM SAILOR 
+WHERE RATING=
+(
+SELECT MAX(RATING) FROM SAILOR
+);
+
+----6) Write a query to find  the number of sailors elligible to vote
+
+SELECT COUNT(AGE)FROM SAILOR 
+WHERE  AGE >18 ;
+
+--7) Write a query to count different sailors name
+
+SELECT COUNT(DISTINCT SNAME) FROM SAILOR ;
+
+--8) Write a query to find  the oldest sailor
+
+SELECT * FROM SAILOR 
+WHERE AGE IN(SELECT MAX(AGE) 
+FROM SAILOR);
+
+--9)Write a query to find name as SAILERNAME,Rating,Age,bname as BOATNAME,Color,Day.
+
+SELECT SNAME AS SAILORNAME,RATING,AGE,BNAME AS BOATNAME,COLOR,DAY
+FROM SAILOR A,BOAT B,RESERVE C
+WHERE A.SID=C.SID AND B.BID=C.BID;
+
+--10)Write a query to display the sailor name  starts with letter a and b.
+
+SELECT SNAME FROM SAILOR WHERE
+SNAME LIKE 'a%' or SNAME LIKE'b%';
+
+--11)Find the names of the Sailors who have reserved at least one boat.
+
+SELECT SNAME FROM SAILOR A,RESERVE B
+WHERE A.SID=B.SID 
+AND SNAME IN (SELECT COUNT(BID) 
+FROM RESERVE);
+
+--12)Compute increments for the ratings of persons who have sailed two different boats on the 
+--same day.
+
+SELECT COUNT(DAY) FROM RESERVE B G
+ROUP BY DAY ;
+
+--13)Find the ages of sailors whose name begins and ends with B and has at least 3 characters.
+
+SELECT AGE FROM SAILOR 
+WHERE SNAME LIKE 'b%' AND SNAME LIKE '%b';
+​
+
+
+
